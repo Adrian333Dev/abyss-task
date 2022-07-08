@@ -9,13 +9,13 @@ interface IProps {
 }
 
 const TodoProvider: FC<IProps> = ({ children }) => {
-	const [categories, setCategories] = useState<IChild[]>([...dummyData]);
+	const [categories, setCategories] = useState<IChild[]>([]);
 
 
 	// ! Add new category
 	const addCategory = (input: string, parent: IChild | null) => {
 		const newCategory: IChild = {
-			id: Math.random() * 1,
+			id: Math.random() * 2,
 			title: input,
 			parentId: parent ? parent.id : null,
 			depth: parent ? parent.depth + 1 : 0,
