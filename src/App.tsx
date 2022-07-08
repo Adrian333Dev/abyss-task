@@ -22,15 +22,10 @@ const App: FC = () => {
 				}}
 			>
 				<Header setX={setX} setY={setY} />
-				<div
-					style={{
-						display: 'flex',
-						alignItems: 'flex-start',
-						flexWrap: 'nowrap',
-						gap: '5px',
-					}}
-					className={topCategories.length > 1 ? 'multiple' : ''}
-				>
+				<div className={topCategories.length > 1 ? 'lineX' : ''}>
+					<div />
+				</div>
+				<div className={'categories-container'}>
 					{topCategories.map((child: any) => (
 						<Category key={child.title} child={child} />
 					))}
