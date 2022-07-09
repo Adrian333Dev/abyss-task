@@ -1,37 +1,49 @@
-import { FC, useContext, useState } from 'react';
+import { FC, useContext, useEffect, useRef, useState } from 'react';
 
-import Header from './components/Header';
-import Category from './components/Category';
 import { Context } from './context/context';
-import { ContextType, IChild } from './models/types';
+import { ContextType } from './models/types';
+import Tree from './components/Tree';
+import Modal from './components/Modal';
 
 const App: FC = () => {
-	const [x, setX] = useState<number>(window.innerWidth / 2);
-	const [y, setY] = useState<number>(200);
+	const ref = useRef<HTMLDivElement>(null);
+	const { position } = useContext(Context) as ContextType;
+	const { x, y } = position;
 
-	const { categories } = useContext(Context) as ContextType;
-	const topCategories = categories.filter((child: IChild) => !child.parentId);
+	const [xPos, setXPos] = useState<number>(x);
+	const [yPos, setYPos] = useState<number>(y);
+
+	useEffect(() => {
+		if (
+			ref.current &&
+			ref.current.offsetWidth > 0 &&
+			ref.current.offsetHeight > 0 &&
+			ref.current.offsetWidth < window.innerWidth &&
+			ref.current.offsetHeight < window.innerHeight
+		) {
+			setXPos(x - ref.current.offsetWidth / 2);
+			setYPos(y - ref.current.offsetHeight / 2);
+		}
+	}, [x, y]);
 
 	return (
-		<div className='App'>
+		<>
 			<div
-				className='container'
-				style={{
-					left: x,
-					top: y,
-				}}
+				className='App'
+				ref={ref}
+				style={
+					x && y
+						? {
+								left: xPos + 110,
+								top: yPos + 5,
+						  }
+						: {}
+				}
 			>
-				<Header setX={setX} setY={setY} />
-				<div className={topCategories.length > 1 ? 'lineX' : ''}>
-					<div />
-				</div>
-				<div className={'categories-container'}>
-					{topCategories.map((child: any) => (
-						<Category key={child.title} child={child} />
-					))}
-				</div>
+				<Tree />
 			</div>
-		</div>
+			<Modal />
+		</>
 	);
 };
 

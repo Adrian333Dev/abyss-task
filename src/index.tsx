@@ -5,15 +5,19 @@ import './styles/index.css';
 import './styles/App.scss';
 
 import App from './App';
-import TodoProvider from './context/context';
+import Provider from './context/context';
+
+// import './styles/test.scss';
+// import Test from './Test';
 
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement
 );
 root.render(
 	<React.StrictMode>
-		<TodoProvider>
+		<Provider>
 			<App />
-		</TodoProvider>
+			{/* <Test /> */}
+		</Provider>
 	</React.StrictMode>
 );
